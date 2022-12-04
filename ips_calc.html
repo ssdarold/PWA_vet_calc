@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<link rel="manifest" href="manifest.json">
+	<link href="/splashscreens/iphonex_splash.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+	<link href="/splashscreens/iphonexr_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+	<link href="/splashscreens/iphonexsmax_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+	<link rel="apple-touch-icon" sizes="180x180" href="touch-icon-iphone-retina.png">
+	<meta charset="UTF-8">
+	<title>Калькулятор дозировки инфузии с постоянной скоростью</title>
+	<meta name="description" content="Зверский калькулятор имени Великой Кано">
+	<link rel="stylesheet" href="style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name = "apple-mobile-web-app-capacity" content = "yes" />  
+	<meta property="og:title" content="Калькулятор дозировки инфузии с постоянной скоростью"/>
+	<meta property="og:description" content="Зверский калькулятор имени Великой Кано"/>
+	<meta property="og:image" content="https://calc.holz-market.ru/main-removebg-preview.png"/>
+	<meta property="og:type" content="profile"/>
+	<script>
+		if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw.js')
+    .then(reg => console.log('service worker registered'))
+    .catch(err => console.log('service worker not registered', err));
+}
+	</script>
+</head>
+<body>
+	<div class="tab_wrap">
+		<div class="tab_item_active">
+            <p>Расчет ИПС</p>
+        </div>
+        <a class="tab_item" href="/zoo_calc.html">
+            <p>Расчет дозировки</p>
+        </a>
+	</div>
+<div class="calculate_wrapper">
+	<div class="wrap_wrapper">
+	<!-- Блок "Расчет дозировки препарата" -->
+	<h2>Расчет ИПС</h2>
+	<div class="flexunit">
+		<label for="pet_weight">Вес животного (в кг):</label><br />
+		<input type="number" id="pet_weight">
+	</div>
+	<div class="flexunit">
+		<div class="flexunit_in">
+			<div class="flexunit_in_left">
+				<label for="base_dosage">Дозировка на 1 кг:</label><br />
+				<input type="number" id="base_dosage">
+			</div>
+			<div class="flexunit_in_right">
+				<select name="mkg" id="mkg">
+					<option value="mkg-min">Мкг/кг/мин</option>
+					<option value="mkg-hour">Мкг/кг/час</option>
+					<option value="mg-min">Мг/кг/мин</option>
+					<option value="mg-hour">Мг/кг/час</option>
+					<option value="daily">Мг/кг/сут</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="flexunit">
+		<label for="speed">Скорость введения готового раствора (в мл/ч):</label><br />
+		<input type="number" id="speed">
+	</div>
+	<div class="flexunit">
+		<label for="volume">Объем шприца (в мл):</label><br />
+		<input type="number" id="volume">
+	</div>
+	<div class="flexunit">
+		<div class="flexunit_in">
+			<div class="flexunit_in_left">
+				<label for="percent">Концентрация маточного раствора:</label><br />
+				<input type="number" id="percent">
+			</div>
+			<div class="flexunit_in_right">
+				<select name="percent_unit" id="percent_unit">
+					<option value="percent">В процентах</option>
+					<option value="mg">Мг/мл</option>
+				</select>
+			</div>
+		</div>
+	</div>
+				<button id="go" onclick="Go()">Рассчитать</button>
+	<div class="result">	
+		<div class="result-left">
+			<h3>Результат:</h3>
+		</div>
+		<div class="result-right">
+			<p class="result_mg"></p>
+		</div>
+	</div>
+	<div class="reset">
+		<a onclick="Reset()">Очистить</a>
+	</div>
+</div>
+<script>
+
+	function Go() {
+
+	//Собираем все данные и сохраняем их в локальные переменные
+
+		let pet_weight = document.getElementById("pet_weight").value
+		let base_dosage = document.getElementById("base_dosage").value
+		let mkg = document.getElementById("mkg").value
+		let speed = document.getElementById("speed").value
+		let volume = document.getElementById("volume").value
+		let percent = document.getElementById("percent").value
+		let percent_unit = document.getElementById("percent_unit").value
+
+	//Переводим концентрацию из миллиграммов в проценты
+
+		// if(percent_unit = 'mg') {
+		// 	percent = percent / 10
+		// }
+
+	//Объявляем базовые переменные
+
+		let uptheline
+		let belowtheline
+		let concentration
+		let itogo
+
+	//Считаем в зависимости от единиц измерения
+
+		// if(mkg = "mkg-min") {
+
+		// }
+
+		switch(mkg) {
+			case 'mkg-min':
+				uptheline = pet_weight * base_dosage * 60 * volume
+				concentration = percent * 10000
+				break
+
+			case 'mkg-hour':
+				uptheline = pet_weight * base_dosage * volume
+				concentration = percent * 10000
+				break
+
+			case 'mg-min':
+				uptheline = pet_weight * base_dosage * 60 * volume
+				concentration = percent * 10
+				break
+
+			case 'mg-hour':
+				uptheline = pet_weight * base_dosage * volume
+				concentration = percent * 10
+				break
+
+			case 'daily':
+				uptheline = pet_weight * base_dosage * volume / 24
+				concentration = percent
+				break
+		}
+
+		belowtheline = concentration * speed
+		itogo = uptheline / belowtheline
+
+
+
+	//Выводим полученный результат
+
+		document.querySelector('.result_mg').innerHTML = itogo.toFixed(3) + " " + "Мл"
+		// console.log("belowtheline" + belowtheline)
+		// console.log("uptheline" + uptheline)
+		// console.log("concentration" + concentration)
+
+	}
+
+	function Reset() {
+		document.getElementById("pet_weight").value = ""
+		document.getElementById("base_dosage").value = ""
+		document.getElementById("speed").value = ""
+		document.getElementById("volume").value = ""
+		document.getElementById("percent").value = ""
+		document.querySelector('.result_mg').innerHTML = ""
+	}
+</script>
+</div>
+</body>
+</html>

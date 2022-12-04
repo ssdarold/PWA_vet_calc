@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<link rel="manifest" href="manifest.json">
+	<meta charset="UTF-8">
+	<link href="/splashscreens/iphonex_splash.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+	<link href="/splashscreens/iphonexr_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+	<link href="/splashscreens/iphonexsmax_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+	<link rel="apple-touch-icon" sizes="180x180" href="main_iphone.png">
+	<title>Калькулятор дозировки препарата</title>
+	<meta name="description" content="Зверский калькулятор имени Великой Кано">
+	<link rel="stylesheet" href="style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name = "apple-mobile-web-app-capacity" content = "yes" /> 
+	<meta property="og:title" content="Калькулятор дозировки препарата"/>
+	<meta property="og:description" content="Зверский калькулятор имени Великой Кано"/>
+	<meta property="og:image" content="https://calc.holz-market.ru/main-removebg-preview.png"/>
+	<meta property="og:type" content="profile"/>
+
+</head>
+<body>
+	<div class="tab_wrap">
+		<a class="tab_item" href="/">
+            <p>Расчет ИПС</p>
+        </a>
+        <div class="tab_item_active">
+            <p>Расчет дозировки</p>
+        </div>
+	</div>
+<div class="calculate_wrapper">
+	<div class="wrap_wrapper">
+		<!-- <div class="logo">
+			<img src="http://calc.holz-market.ru/main-removebg-preview.png" alt="">
+		</div> -->
+	<!-- Блок "Расчет дозировки препарата" -->
+	<h2>Расчет дозировки препарата</h2>
+	<div class="flexunit">
+		<label for="pet_weight">Вес животного (в кг):</label><br />
+		<input type="number" id="pet_weight">
+	</div>
+	<div class="flexunit">
+		<label for="base_dosage">Дозировка на 1 кг (в мг/кг):</label><br />
+		<input type="number" id="base_dosage">
+	</div>
+	<div class="flexunit">
+		<label for="in_one">Количество вещества в одном миллилитре раствора/в одной таблетке (в мг):</label><br />
+		<input type="number" id="in_one">
+	</div>
+				<button id="go" onclick="Go()">Рассчитать</button>
+	<div class="result">	
+		<div class="result-left">
+			<h3>Результат:</h3>
+		</div>
+		<div class="result-right">
+			<p class="result_dosage"></p><br /><br />
+			<p class="result_mg"></p>
+		</div>
+	</div>
+	<div class="reset">
+		<a onclick="Reset()">Очистить</a>
+	</div>
+</div>
+<script>
+
+	function Go() {
+
+	//Собираем все данные и сохраняем их в локальные переменные
+
+		let pet_weight = document.getElementById("pet_weight").value
+		let base_dosage = document.getElementById("base_dosage").value
+		let in_one = document.getElementById("in_one").value
+
+	//Умножаем базовую дозировку на вес
+
+		let full_dosage = pet_weight * base_dosage
+
+	//Считаем итоговый результат
+		let result
+		if (in_one) {
+			result = full_dosage / in_one
+			document.querySelector('.result_dosage').innerHTML = result + " " + "Мл"
+			}
+		else {
+			result = ""
+			document.querySelector('.result_mg').style.marginTop = "2px"
+		}
+
+	//Выводим полученный результат
+
+		document.querySelector('.result_mg').innerHTML = full_dosage + " " + "Мг"
+
+	}
+
+	function Reset() {
+		document.querySelector('#pet_weight').value = ""
+		document.querySelector('#base_dosage').value = ""
+		document.querySelector('#in_one').value = ""
+		document.querySelector('.result_dosage').innerHTML = ""
+		document.querySelector('.result_mg').innerHTML = ""
+	}
+</script>
+</div>
+</body>
+</html>
