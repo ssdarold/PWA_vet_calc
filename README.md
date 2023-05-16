@@ -1,7 +1,5 @@
 # Veterinary Clinic Dosage Calculator
 
-![Project Logo](logo.png)
-
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![JavaScript](https://img.shields.io/badge/javascript-ES6-F7DF1E.svg)](https://www.javascript.com/)
 [![HTML](https://img.shields.io/badge/html-5-E34F26.svg)](https://developer.mozilla.org/en-US/docs/Web/HTML)
